@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Set the background color. -->
+    <item
+        android:drawable="@color/midnight_express"/>
+
+    <!-- Put the logo in the centre of the splash screen. -->
+    <item
+        android:drawable="@drawable/ic_surf_edu"
+        android:gravity="center"/>
+
+</layer-list>
