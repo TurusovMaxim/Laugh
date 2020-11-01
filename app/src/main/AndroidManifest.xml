@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Laugh">
+        <activity android:name=".AuthorizationActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
