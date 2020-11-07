@@ -1,9 +1,10 @@
 package com.example.laugh
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
+
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,11 +14,10 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun toTheNewPage() {
-        val handler = Handler()
-
-        handler.postDelayed({
+        Handler().postDelayed({
             val intent = Intent(this, AuthorizationActivity::class.java)
             startActivity(intent)
-        },300)
+            finish()
+        }, 300)
     }
 }
