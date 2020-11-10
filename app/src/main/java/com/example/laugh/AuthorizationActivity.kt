@@ -10,9 +10,9 @@ import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-
 
 class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -25,6 +25,7 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var loginButton:Button
 
     private lateinit var progressBar:ProgressBar
+
 
     private var isPasswordShow: Boolean = false
 
@@ -51,7 +52,8 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
 
         isPasswordIconShow()
         isPwdValid()
-        isLgnValid()
+        isLgnEmpty()
+        isPwdEmpty()
     }
 
 
@@ -72,17 +74,16 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun isPasswordIconShow() {
-        userPasswordEdit.doAfterTextChanged {
-            it?.let { it0 ->
-                if (it0.toString().isNotEmpty()) {
 
+        userPasswordEdit.doOnTextChanged { text, _, _, _ ->
+            text?.let { it0 ->
+                if (it0.toString().isNotEmpty()) {
                     //set the initial password icon
                     passwordIconEnable()
 
                     //set the listener for the password icon
-                    userPassword.endIconImageButton.setOnClickListener {it1 ->
+                    userPassword.endIconImageButton.setOnClickListener { it1 ->
                         it1?.let {
-
                             //change the password icon
                             isPasswordShow = !isPasswordShow
                             passwordIconEnable()
@@ -102,26 +103,25 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
     private val lowerLimit = 6
     private val upperLimit = 16
 
+
     private fun didPwdFillCorrectly():Boolean {
         return getEditPassword().length in lowerLimit until upperLimit - 1
     }
 
     private fun isPwdValid() {
-        val errorMessage: String = getString(R.string.empty_field)
         val lowLimitMessage: String = getString(R.string.lower_limit_password, lowerLimit)
         val upLimitMessage: String = getString(R.string.upper_limit_password, upperLimit)
 
-        userPasswordEdit.doAfterTextChanged {
-            it?.let {
+
+        userPasswordEdit.doOnTextChanged { text, _, _, _ ->
+            text?.let {
                 if (it.isNotEmpty() && didPwdFillCorrectly()) {
                     userPassword.helperText = ""
                 } else {
                     when(getEditPassword().length) {
-                        0 ->
-                            userPassword.setError(errorMessage,false)
                         in 1 until lowerLimit ->
                             userPassword.helperText = lowLimitMessage
-                        in upperLimit until Int.MAX_VALUE ->
+                        in upperLimit + 1 until Int.MAX_VALUE ->
                             userPassword.helperText = upLimitMessage
                     }
                 }
@@ -129,30 +129,33 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun errorMessage(): String = getString(R.string.empty_field)
 
-    private fun isLgnValid() {
-        val errorMessage: String = getString(R.string.empty_field)
-
-        userLoginEdit.doAfterTextChanged {
+    private fun isPwdEmpty() {
+        userPasswordEdit.doAfterTextChanged {
             it?.let {
-                if (it.isEmpty()) {
-                    userLogin.setError(errorMessage, false)
-                }
+                if (it.isEmpty())
+                    userPassword.setError(errorMessage(), false)
             }
         }
     }
 
 
-    private fun areFieldsEmpty():Boolean {
-        return getEditLogin().isEmpty() && getEditPassword().isEmpty()
+    private fun isLgnEmpty(){
+        userLoginEdit.doAfterTextChanged {
+            it?.let {
+                if (it.isEmpty())
+                    userLogin.setError(errorMessage(), false)
+            }
+        }
     }
 
     private fun setErrorMsgEmptyField(): Boolean {
-        if (areFieldsEmpty()) {
-            val errorMessage: String = getString(R.string.empty_field)
+        if (getEditLogin().isEmpty() &&
+            getEditPassword().isEmpty()) {
 
-            userLogin.setError(errorMessage, false)
-            userPassword.setError(errorMessage, false)
+            userLogin.setError(errorMessage(), false)
+            userPassword.setError(errorMessage(), false)
             return true
         }
         return false
