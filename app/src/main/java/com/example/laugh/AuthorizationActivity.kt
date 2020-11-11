@@ -14,6 +14,9 @@ import androidx.core.widget.doOnTextChanged
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
+private const val LOWER_LIMIT_PWD = 6
+private const val UPPER_LIMIT_PWD = 16
+
 class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var userLogin:TextFieldBoxes
@@ -26,9 +29,7 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var progressBar:ProgressBar
 
-
     private var isPasswordShow: Boolean = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +61,11 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
     private fun getEditLogin():String = userLoginEdit.text.toString()
 
     private fun getEditPassword():String = userPasswordEdit.text.toString()
+
+    private fun lowLimitMessage(): String = getString(R.string.lower_limit_password, LOWER_LIMIT_PWD)
+    private fun upLimitMessage(): String = getString(R.string.upper_limit_password, UPPER_LIMIT_PWD)
+
+    private fun errorMessage(): String = getString(R.string.empty_field)
 
 
     private fun passwordIconEnable() {
@@ -100,36 +106,28 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    private val lowerLimit = 6
-    private val upperLimit = 16
-
-
     private fun didPwdFillCorrectly():Boolean {
-        return getEditPassword().length in lowerLimit until upperLimit - 1
+        return getEditPassword().length in LOWER_LIMIT_PWD until UPPER_LIMIT_PWD - 1
     }
 
+
     private fun isPwdValid() {
-        val lowLimitMessage: String = getString(R.string.lower_limit_password, lowerLimit)
-        val upLimitMessage: String = getString(R.string.upper_limit_password, upperLimit)
-
-
         userPasswordEdit.doOnTextChanged { text, _, _, _ ->
             text?.let {
                 if (it.isNotEmpty() && didPwdFillCorrectly()) {
                     userPassword.helperText = ""
                 } else {
                     when(getEditPassword().length) {
-                        in 1 until lowerLimit ->
-                            userPassword.helperText = lowLimitMessage
-                        in upperLimit + 1 until Int.MAX_VALUE ->
-                            userPassword.helperText = upLimitMessage
+                        in 1 until LOWER_LIMIT_PWD ->
+                            userPassword.helperText = lowLimitMessage()
+                        in UPPER_LIMIT_PWD + 1 until Int.MAX_VALUE ->
+                            userPassword.helperText = upLimitMessage()
                     }
                 }
             }
         }
     }
 
-    private fun errorMessage(): String = getString(R.string.empty_field)
 
     private fun isPwdEmpty() {
         userPasswordEdit.doAfterTextChanged {
@@ -149,6 +147,7 @@ class AuthorizationActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
 
     private fun setErrorMsgEmptyField(): Boolean {
         if (getEditLogin().isEmpty() &&
