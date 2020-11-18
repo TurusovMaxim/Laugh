@@ -1,8 +1,7 @@
-package com.example.laugh
+package com.example.laugh.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -12,13 +11,14 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
+import com.example.laugh.*
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
 private const val LOWER_LIMIT_PWD = 6
 private const val UPPER_LIMIT_PWD = 16
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginContractView {
 
     private lateinit var userLogin:TextFieldBoxes
     private lateinit var userPassword:TextFieldBoxes
@@ -32,11 +32,15 @@ class LoginActivity : AppCompatActivity() {
 
     private var isPasswordShow: Boolean = false
 
+    private lateinit var loginPresenter: LoginPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
 
         initView()
+
+        loginPresenter = LoginPresenter(this, LoginInteractor(applicationContext))
 
         userPasswordEdit.doOnTextChanged { text, _, _, _ ->
             if (isPwdEmptyOn(text)) {
@@ -60,40 +64,25 @@ class LoginActivity : AppCompatActivity() {
             if (areFieldsEmptyAfterEdit(it)) setPwdErrorMessage()
         }
 
-        loginButton.setOnClickListener {
-            if (!isStaticEmpty() && inRightRange()) {
-                showProgressBar()
-                Handler().postDelayed({
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }, 1000)
-            } else {
-                hideProgressBar()
-            }
-        }
+        loginButton.setOnClickListener { login() }
 
     }
 
-    private fun isStaticEmpty(): Boolean {
-        return when {
-            getEditLogin().isEmpty() -> {
-                setLgnErrorMessage()
-                true
-            }
-            getEditPassword().isEmpty() -> {
-                setPwdErrorMessage()
-                true
-            }
-            else -> {
-                false
-            }
+    private fun login() {
+        loginPresenter.staticValidate(userPasswordEdit)
+    }
+
+    override fun isStaticEmpty(): Boolean {
+        return if (getEditLogin().isEmpty() && getEditPassword().isEmpty()) {
+            setLgnErrorMessage()
+            setPwdErrorMessage()
+            true
+        } else {
+            false
         }
     }
 
-    private fun inRightRange(): Boolean {
-        return getEditPassword().length in LOWER_LIMIT_PWD until UPPER_LIMIT_PWD + 1
-    }
+
 
     private fun isPasswordValid(text: CharSequence?) {
         if (text.toString().length in LOWER_LIMIT_PWD until UPPER_LIMIT_PWD + 1)
@@ -191,5 +180,15 @@ class LoginActivity : AppCompatActivity() {
     private fun hideProgressBar() {
         progressBar.visibility = View.INVISIBLE
         loginButton.visibility = View.VISIBLE
+    }
+
+    override fun logInSuccess() {
+        showProgressBar()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    override fun logInFailure() {
+        hideProgressBar()
     }
 }
