@@ -18,7 +18,7 @@ import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 private const val LOWER_LIMIT_PWD = 6
 private const val UPPER_LIMIT_PWD = 16
 
-class LoginActivity : AppCompatActivity(), LoginContractView {
+class LoginActivity : AppCompatActivity(), LoginContractInteractor {
 
     private lateinit var userLogin:TextFieldBoxes
     private lateinit var userPassword:TextFieldBoxes
@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity(), LoginContractView {
         loginPresenter.staticValidate(userPasswordEdit)
     }
 
-    override fun isStaticEmpty(): Boolean {
+    override fun isStaticEmptyCI(): Boolean {
         return if (getEditLogin().isEmpty() && getEditPassword().isEmpty()) {
             setLgnErrorMessage()
             setPwdErrorMessage()
@@ -182,13 +182,13 @@ class LoginActivity : AppCompatActivity(), LoginContractView {
         loginButton.visibility = View.VISIBLE
     }
 
-    override fun logInSuccess() {
+    override fun logInSuccessCI() {
         showProgressBar()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
-    override fun logInFailure() {
+    override fun logInFailureCI() {
         hideProgressBar()
     }
 }

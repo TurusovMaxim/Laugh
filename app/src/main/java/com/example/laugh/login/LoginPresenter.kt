@@ -3,21 +3,21 @@ package com.example.laugh.login
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 
 class LoginPresenter(loginContractView: LoginActivity, loginInteractor: LoginInteractor):
-        LoginInteractor.OnLoginContractView {
+        LoginContractInteractor {
 
     private val lgnContractView = loginContractView
     private val lgnInteractor = loginInteractor
 
-    override fun isStaticEmptyLI(): Boolean {
-        return lgnContractView.isStaticEmpty()
+    override fun isStaticEmptyCI(): Boolean {
+        return lgnContractView.isStaticEmptyCI()
     }
 
-    override fun logInSuccessLI() {
-        lgnContractView.logInSuccess()
+    override fun logInSuccessCI() {
+        lgnContractView.logInSuccessCI()
     }
 
-    override fun logInFailureLI() {
-        lgnContractView.logInFailure()
+    override fun logInFailureCI() {
+        lgnContractView.logInFailureCI()
     }
 
     fun staticValidate(userPasswordEdit:ExtendedEditText) {

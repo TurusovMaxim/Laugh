@@ -9,26 +9,19 @@ private const val UPPER_LIMIT_PWD = 16*/
 
 class LoginInteractor(context: Context) {
 
-    interface OnLoginContractView {
-        fun isStaticEmptyLI(): Boolean
-        fun logInSuccessLI()
-        fun logInFailureLI()
-    }
-
-
 
 
     private fun inRightRange(userPasswordEdit: ExtendedEditText): Boolean {
         return userPasswordEdit.text.toString().length in 6 until 16 + 1
     }
 
-    fun logIn(userPasswordEdit: ExtendedEditText, view: OnLoginContractView) {
-            if (!view.isStaticEmptyLI() && inRightRange(userPasswordEdit)) {
+    fun logIn(userPasswordEdit: ExtendedEditText, view: LoginContractInteractor) {
+            if (!view.isStaticEmptyCI() && inRightRange(userPasswordEdit)) {
                 Handler().postDelayed({
-                    view.logInSuccessLI()
+                    view.logInSuccessCI()
                 },2000)
             } else {
-                view.logInFailureLI()
+                view.logInFailureCI()
             }
     }
 }
