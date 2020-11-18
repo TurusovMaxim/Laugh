@@ -1,11 +1,10 @@
 package com.example.laugh.network.response
 
-import com.example.laugh.network.response.UserInfo
 import com.google.gson.annotations.SerializedName
 
-data class UserInfoBase (
+data class UserInfoBaseResponse (
         @SerializedName("accessToken")
-        val accessToken : String,
+        val accessToken : String? = null,
         @SerializedName("userInfo")
-        val userInfo : UserInfo
+        val userInfo : UserInfoResponse? = null
 )

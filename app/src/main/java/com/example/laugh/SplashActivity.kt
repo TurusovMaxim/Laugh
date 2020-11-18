@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun toTheNewPage() {
         Handler().postDelayed({
-            val intent = Intent(this, AuthorizationActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 300)

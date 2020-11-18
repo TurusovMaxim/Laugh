@@ -2,7 +2,7 @@ package com.example.laugh.network.response
 
 import com.google.gson.annotations.SerializedName
 
-data class UserInfo (
+data class UserInfoResponse (
         @SerializedName("id")
         val id : Int? = null,
         @SerializedName("username")
