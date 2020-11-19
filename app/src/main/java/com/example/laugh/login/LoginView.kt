@@ -1,8 +1,8 @@
 package com.example.laugh.login
 
-interface LoginContractInteractor {
-    fun logInSuccessCI()
-    fun logInFailureCI()
+interface LoginView {
+    fun loginSuccess()
+    fun loginFailure()
     fun setLgnErrorMessage()
     fun setPwdErrorMessage()
     fun passwordIconDisable()

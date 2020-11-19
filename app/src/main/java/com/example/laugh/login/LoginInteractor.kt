@@ -7,60 +7,61 @@ import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 private const val LOWER_LIMIT_PWD = 6
 private const val UPPER_LIMIT_PWD = 16
 
-class LoginInteractor {
+class LoginInteractor(private val userLoginEdit: ExtendedEditText,
+                      private var userPasswordEdit: ExtendedEditText) {
+
 
     private var isPasswordShow: Boolean = false
 
     private fun areFieldsEmptyOnEdit(text: CharSequence?): Boolean {
         return text.toString().isEmpty()
+
     }
 
     private fun passwordIconEnable(
         text: CharSequence?,
-        userPasswordEdit: ExtendedEditText,
-        view: LoginContractInteractor
+        view: LoginView
     ) {
         if (isPasswordShow) {
             view.showPassword()
         } else {
             view.hidePassword()
         }
-        setCursorAtRightPlace(text, userPasswordEdit)
+        setCursorAtRightPlace(text)
     }
 
     private fun setCursorAtRightPlace(
-        text: CharSequence?,
-        userPasswordEdit: ExtendedEditText
+            text: CharSequence?
     ) {
         userPasswordEdit.setSelection(text.toString().length)
     }
 
-    fun isPwdIconEnableDisable(
+    fun pwdIconEnableDisable(
         text: CharSequence?,
-        userPasswordEdit: ExtendedEditText,
-        view: LoginContractInteractor
+        view: LoginView
     ) {
         if (areFieldsEmptyOnEdit(text)) {
             view.passwordIconDisable()
         } else {
-            passwordIconEnable(text, userPasswordEdit, view)
+            passwordIconEnable(text, view)
         }
     }
 
-    fun isPwdIconChange(
+
+    fun iconShowHidePwd(
         text: CharSequence?,
-        userPasswordEdit: ExtendedEditText,
-        view: LoginContractInteractor
+        view: LoginView
     ) {
         if (!areFieldsEmptyOnEdit(text)) {
             isPasswordShow = !isPasswordShow
-            passwordIconEnable(text, userPasswordEdit, view)
+            passwordIconEnable(text, view)
         }
     }
 
-    fun isPasswordValid(
+
+    fun isPwdValid(
         text: CharSequence?,
-        view: LoginContractInteractor
+        view: LoginView
     ) {
         if (!areFieldsEmptyOnEdit(text)) {
             if (text.toString().length in LOWER_LIMIT_PWD until UPPER_LIMIT_PWD + 1)
@@ -76,14 +77,14 @@ class LoginInteractor {
         }
     }
 
+
     fun areFieldsEmptyAfterEdit(editable: Editable?): Boolean {
         return editable.toString().isEmpty()
     }
 
-    private fun isStaticEmptyCI(
-            userLoginEdit: ExtendedEditText,
-            userPasswordEdit: ExtendedEditText,
-            view: LoginContractInteractor
+
+    private fun isStaticEmpty(
+            view: LoginView
     ): Boolean {
         return if (userLoginEdit.text.toString().isEmpty()
                 && userPasswordEdit.text.toString().isEmpty()) {
@@ -95,21 +96,19 @@ class LoginInteractor {
         }
     }
 
-    private fun inRightRange(userPasswordEdit: ExtendedEditText): Boolean {
+    private fun isItInRightRange(): Boolean {
         return userPasswordEdit.text.toString().length in LOWER_LIMIT_PWD until UPPER_LIMIT_PWD + 1
     }
 
     fun login(
-            userLoginEdit: ExtendedEditText,
-            userPasswordEdit: ExtendedEditText,
-            view: LoginContractInteractor
+            view: LoginView
     ) {
-        if (!isStaticEmptyCI(userLoginEdit, userPasswordEdit, view) && inRightRange(userPasswordEdit)) {
+        if (!isStaticEmpty(view) && isItInRightRange()) {
             Handler().postDelayed({
-                view.logInSuccessCI()
+                view.loginSuccess()
             },2000)
         } else {
-            view.logInFailureCI()
+            view.loginFailure()
         }
     }
 }
