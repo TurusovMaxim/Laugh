@@ -16,7 +16,7 @@ import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
 
-class LoginActivity : AppCompatActivity(), LoginContractInteractor {
+class LoginActivity : AppCompatActivity(), LoginView {
 
     private lateinit var userLogin:TextFieldBoxes
     private lateinit var userPassword:TextFieldBoxes
@@ -28,8 +28,6 @@ class LoginActivity : AppCompatActivity(), LoginContractInteractor {
 
     private lateinit var progressBar:ProgressBar
 
-
-
     private lateinit var loginPresenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,12 +36,15 @@ class LoginActivity : AppCompatActivity(), LoginContractInteractor {
 
         initView()
 
-        loginPresenter = LoginPresenter(this, LoginInteractor())
+        loginPresenter = LoginPresenter(
+                this,
+                LoginInteractor( userLoginEdit, userPasswordEdit))
 
+        //set a password icon-eye and check a password validation
         userPasswordEdit.doOnTextChanged { text, _, _, _ ->
-            isPwdIconEnableDisable(text, userPasswordEdit)
+            pwdIconEnableDisable(text)
             isPwdValid(text)
-            userPassword.endIconImageButton.setOnClickListener {isPwdIconChange(text, userPasswordEdit)}
+            userPassword.endIconImageButton.setOnClickListener {iconShowHidePwd(text)}
         }
 
         userLoginEdit.doAfterTextChanged{
@@ -58,18 +59,6 @@ class LoginActivity : AppCompatActivity(), LoginContractInteractor {
 
         loginButton.setOnClickListener { login() }
 
-    }
-
-    private fun isPwdIconEnableDisable(text: CharSequence?, userPasswordEdit: ExtendedEditText) {
-        loginPresenter.isPwdIconShow(text, userPasswordEdit)
-    }
-
-    private fun isPwdIconChange(text: CharSequence?, userPasswordEdit: ExtendedEditText) {
-        loginPresenter.isPasswordIconChange(text, userPasswordEdit)
-    }
-
-    private fun isPwdValid(text: CharSequence?) {
-        loginPresenter.isPwdValidOnEdit(text)
     }
 
     private fun initView() {
@@ -93,7 +82,19 @@ class LoginActivity : AppCompatActivity(), LoginContractInteractor {
     private fun errorMessage(): String = getString(R.string.empty_field)
 
     private fun login() {
-        loginPresenter.staticValidate(userLoginEdit, userPasswordEdit)
+        loginPresenter.staticEmptyValidate()
+    }
+
+    private fun pwdIconEnableDisable(text: CharSequence?) {
+        loginPresenter.pwdIconShowHide(text)
+    }
+
+    private fun iconShowHidePwd(text: CharSequence?) {
+        loginPresenter.pwdIconChange(text)
+    }
+
+    private fun isPwdValid(text: CharSequence?) {
+        loginPresenter.isPwdValidOnEdit(text)
     }
 
     override fun showPassword() {
@@ -144,13 +145,13 @@ class LoginActivity : AppCompatActivity(), LoginContractInteractor {
         loginButton.visibility = View.VISIBLE
     }
 
-    override fun logInSuccessCI() {
+    override fun loginSuccess() {
         showProgressBar()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
-    override fun logInFailureCI() {
+    override fun loginFailure() {
         hideProgressBar()
     }
 }

@@ -1,20 +1,19 @@
 package com.example.laugh.login
 
 import android.text.Editable
-import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 
 class LoginPresenter(loginContractView: LoginActivity, loginInteractor: LoginInteractor):
-        LoginContractInteractor {
+        LoginView {
 
     private val lgnContractView = loginContractView
     private val lgnInteractor = loginInteractor
 
-    override fun logInSuccessCI() {
-        lgnContractView.logInSuccessCI()
+    override fun loginSuccess() {
+        lgnContractView.loginSuccess()
     }
 
-    override fun logInFailureCI() {
-        lgnContractView.logInFailureCI()
+    override fun loginFailure() {
+        lgnContractView.loginFailure()
     }
 
     override fun setLgnErrorMessage() {
@@ -49,23 +48,23 @@ class LoginPresenter(loginContractView: LoginActivity, loginInteractor: LoginInt
         lgnContractView.setUpLimitMessage(UPPER_LIMIT_PWD)
     }
 
-    fun staticValidate(userLoginEdit: ExtendedEditText,userPasswordEdit:ExtendedEditText) {
-        lgnInteractor.login(userLoginEdit, userPasswordEdit, this)
+    fun staticEmptyValidate() {
+        lgnInteractor.login(this)
     }
 
     fun emptyValidateAfterEdit(editable: Editable?): Boolean {
         return lgnInteractor.areFieldsEmptyAfterEdit(editable)
     }
 
-    fun isPwdIconShow(text: CharSequence?, userPasswordEdit: ExtendedEditText) {
-        lgnInteractor.isPwdIconEnableDisable(text, userPasswordEdit, this)
+    fun pwdIconShowHide(text: CharSequence?) {
+        lgnInteractor.pwdIconEnableDisable(text, this)
     }
 
-    fun isPasswordIconChange(text: CharSequence?, userPasswordEdit: ExtendedEditText) {
-        lgnInteractor.isPwdIconChange(text, userPasswordEdit, this)
+    fun pwdIconChange(text: CharSequence?) {
+        lgnInteractor.iconShowHidePwd(text,this)
     }
 
     fun isPwdValidOnEdit(text: CharSequence?) {
-        lgnInteractor.isPasswordValid(text, this)
+        lgnInteractor.isPwdValid(text, this)
     }
 }
