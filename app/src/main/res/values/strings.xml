@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Laugh</string>
+    <string name="login_field">Логин</string>
+    <string name="password_field">Пароль</string>
+    <string name="login_btn">Войти</string>
+    <string name="empty_field">Поле не может быть пустым</string>
+    <string name="upper_limit_password">Пароль не должен содержать более %1$d символов</string>
+    <string name="lower_limit_password">Пароль должен содержать %1$d символов</string>
 </resources>
