@@ -1,4 +1,4 @@
-package com.example.laugh.login
+package com.example.laugh.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +9,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
-import com.example.laugh.*
+import com.example.laugh.R
+import com.example.laugh.interactor.LoginInteractor
+import com.example.laugh.presenter.LoginPresenter
+import com.example.laugh.view.LoginView
+import com.google.android.material.snackbar.Snackbar
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
@@ -30,6 +35,8 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     private lateinit var loginPresenter: LoginPresenter
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
@@ -38,7 +45,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
         loginPresenter = LoginPresenter(
                 this,
-                LoginInteractor( userLoginEdit, userPasswordEdit))
+                LoginInteractor(userLoginEdit, userPasswordEdit))
 
         //set a password icon-eye and check a password validation
         userPasswordEdit.doOnTextChanged { text, _, _, _ ->
@@ -145,6 +152,14 @@ class LoginActivity : AppCompatActivity(), LoginView {
         loginButton.visibility = View.VISIBLE
     }
 
+    private fun showSnackbar() {
+        //get a root view from a current activity
+        val view = android.R.id.content
+        val snackbar = Snackbar.make(findViewById(view), R.string.snackbar_error, Snackbar.LENGTH_SHORT)
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.bittersweet))
+        snackbar.show()
+    }
+
     override fun loginSuccess() {
         showProgressBar()
         startActivity(Intent(this, MainActivity::class.java))
@@ -153,5 +168,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun loginFailure() {
         hideProgressBar()
+        showSnackbar()
     }
 }

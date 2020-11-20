@@ -1,7 +1,7 @@
-package com.example.laugh.network
+package com.example.laugh.data
 
-import com.example.laugh.network.request.AuthRequest
-import com.example.laugh.network.response.UserInfoBaseResponse
+import com.example.laugh.data.network.request.AuthRequest
+import com.example.laugh.data.network.response.UserInfoBaseResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

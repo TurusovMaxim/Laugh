@@ -1,10 +1,9 @@
-package com.example.laugh
+package com.example.laugh.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import com.example.laugh.login.LoginActivity
 
 
 class SplashActivity : AppCompatActivity() {

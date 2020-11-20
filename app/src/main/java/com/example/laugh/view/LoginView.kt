@@ -1,4 +1,4 @@
-package com.example.laugh.login
+package com.example.laugh.view
 
 interface LoginView {
     fun loginSuccess()

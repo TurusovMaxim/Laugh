@@ -1,6 +1,6 @@
-package com.example.laugh.retofit
+package com.example.laugh.data.retofit
 
-import com.example.laugh.network.NetworkService
+import com.example.laugh.data.NetworkService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -16,5 +16,5 @@ object ServiceBuilder {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-    fun getApi():NetworkService = retrofit.create(NetworkService::class.java)
+    fun getApi(): NetworkService = retrofit.create(NetworkService::class.java)
 }

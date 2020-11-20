@@ -1,7 +1,8 @@
-package com.example.laugh.login
+package com.example.laugh.interactor
 
 import android.os.Handler
 import android.text.Editable
+import com.example.laugh.view.LoginView
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 
 private const val LOWER_LIMIT_PWD = 6
