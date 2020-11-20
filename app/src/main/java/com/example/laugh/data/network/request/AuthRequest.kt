@@ -1,4 +1,4 @@
-package com.example.laugh.network.request
+package com.example.laugh.data.network.request
 
 data class AuthRequest(
         val login: String? = null,

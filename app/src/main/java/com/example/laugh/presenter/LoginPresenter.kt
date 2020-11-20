@@ -1,6 +1,9 @@
-package com.example.laugh.login
+package com.example.laugh.presenter
 
 import android.text.Editable
+import com.example.laugh.interactor.LoginInteractor
+import com.example.laugh.ui.LoginActivity
+import com.example.laugh.view.LoginView
 
 class LoginPresenter(loginContractView: LoginActivity, loginInteractor: LoginInteractor):
         LoginView {

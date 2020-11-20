@@ -1,4 +1,4 @@
-package com.example.laugh.network.response
+package com.example.laugh.data.network.response
 
 import com.google.gson.annotations.SerializedName
 

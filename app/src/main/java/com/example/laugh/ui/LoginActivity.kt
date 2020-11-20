@@ -1,4 +1,4 @@
-package com.example.laugh.login
+package com.example.laugh.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,10 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
-import com.example.laugh.MainActivity
 import com.example.laugh.R
+import com.example.laugh.interactor.LoginInteractor
+import com.example.laugh.presenter.LoginPresenter
+import com.example.laugh.view.LoginView
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
@@ -152,7 +153,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
     }
 
     private fun showSnackbar() {
-        //get root view from current activity
+        //get a root view from a current activity
         val view = android.R.id.content
         val snackbar = Snackbar.make(findViewById(view), R.string.snackbar_error, Snackbar.LENGTH_SHORT)
         snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.bittersweet))
