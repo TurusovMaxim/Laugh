@@ -9,9 +9,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
-import com.example.laugh.*
+import com.example.laugh.MainActivity
+import com.example.laugh.R
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
@@ -30,6 +34,8 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     private lateinit var loginPresenter: LoginPresenter
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authorization)
@@ -38,7 +44,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
         loginPresenter = LoginPresenter(
                 this,
-                LoginInteractor( userLoginEdit, userPasswordEdit))
+                LoginInteractor(userLoginEdit, userPasswordEdit))
 
         //set a password icon-eye and check a password validation
         userPasswordEdit.doOnTextChanged { text, _, _, _ ->
@@ -145,6 +151,14 @@ class LoginActivity : AppCompatActivity(), LoginView {
         loginButton.visibility = View.VISIBLE
     }
 
+    private fun showSnackbar() {
+        //get root view from current activity
+        val view = android.R.id.content
+        val snackbar = Snackbar.make(findViewById(view), R.string.snackbar_error, Snackbar.LENGTH_SHORT)
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.bittersweet))
+        snackbar.show()
+    }
+
     override fun loginSuccess() {
         showProgressBar()
         startActivity(Intent(this, MainActivity::class.java))
@@ -153,5 +167,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     override fun loginFailure() {
         hideProgressBar()
+        showSnackbar()
     }
 }
