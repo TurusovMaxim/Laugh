@@ -35,11 +35,9 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     private lateinit var loginPresenter: LoginPresenter
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_authorization)
+        setContentView(R.layout.activity_login)
 
         initView()
 
@@ -154,9 +152,14 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
     private fun showSnackbar() {
         //get a root view from a current activity
-        val view = android.R.id.content
-        val snackbar = Snackbar.make(findViewById(view), R.string.snackbar_error, Snackbar.LENGTH_SHORT)
-        snackbar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.bittersweet))
+        val viewSnackbar = android.R.id.content
+
+        val snackbar = Snackbar.make(findViewById(viewSnackbar),
+                R.string.snackbar_error, Snackbar.LENGTH_SHORT)
+
+        snackbar.view.setBackgroundColor(ContextCompat.getColor(
+                this, R.color.bittersweet))
+
         snackbar.show()
     }
 

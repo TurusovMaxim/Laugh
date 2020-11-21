@@ -1,8 +1,13 @@
 package com.example.laugh.interactor
 
-import android.os.Handler
 import android.text.Editable
+import com.example.laugh.data.network.request.AuthRequest
+import com.example.laugh.data.network.response.UserInfoResponse
+import com.example.laugh.data.retofit.ServiceBuilder
 import com.example.laugh.view.LoginView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 
 private const val LOWER_LIMIT_PWD = 6
@@ -13,6 +18,9 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
 
 
     private var isPasswordShow: Boolean = false
+
+    //network
+    private val getUserApi = ServiceBuilder.getApi()
 
     private fun areFieldsEmptyOnEdit(text: CharSequence?): Boolean {
         return text.toString().isEmpty()
@@ -105,11 +113,21 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
             view: LoginView
     ) {
         if (!isStaticEmpty(view) && isItInRightRange()) {
-            Handler().postDelayed({
-                view.loginSuccess()
-            },2000)
-        } else {
-            view.loginFailure()
+            getUserApi?.logIn(AuthRequest(
+                    userLoginEdit.text.toString(),
+                    userPasswordEdit.text.toString()
+            ))
+                    ?.enqueue(object : Callback<UserInfoResponse> {
+                        override fun onResponse(
+                                call: Call<UserInfoResponse>,
+                                response: Response<UserInfoResponse>) {
+                            view.loginSuccess()
+                        }
+
+                        override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
+                            view.loginFailure()
+                        }
+                    })
         }
     }
 }

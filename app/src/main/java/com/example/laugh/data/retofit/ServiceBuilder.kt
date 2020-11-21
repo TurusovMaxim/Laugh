@@ -16,5 +16,5 @@ object ServiceBuilder {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
-    fun getApi(): NetworkService = retrofit.create(NetworkService::class.java)
+    fun getApi(): NetworkService? = retrofit.create(NetworkService::class.java)
 }
