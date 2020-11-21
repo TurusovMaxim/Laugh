@@ -11,6 +11,7 @@
     android:paddingBottom="16dp"
     android:paddingHorizontal="16dp"
 
+
     android:background="@color/midnight_express"
     tools:context=".ui.LoginActivity">
 
@@ -92,6 +93,8 @@
             style="@style/ProgressBar" />
 
     </com.google.android.material.card.MaterialCardView>
+
+
 
 </RelativeLayout>
 
