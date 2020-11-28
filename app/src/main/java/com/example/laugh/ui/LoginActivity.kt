@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
 
         loginPresenter = LoginPresenter(
                 this,
-                LoginInteractor(userLoginEdit, userPasswordEdit))
+                LoginInteractor(this, userLoginEdit, userPasswordEdit))
 
         //set a password icon-eye and check a password validation
         userPasswordEdit.doOnTextChanged { text, _, _, _ ->
@@ -154,8 +154,10 @@ class LoginActivity : AppCompatActivity(), LoginView {
         //get a root view from a current activity
         val viewSnackbar = android.R.id.content
 
-        val snackbar = Snackbar.make(findViewById(viewSnackbar),
-                R.string.snackbar_error, Snackbar.LENGTH_SHORT)
+        val snackbar = Snackbar.make(
+                findViewById(viewSnackbar),
+                R.string.snackbar_error,
+                Snackbar.LENGTH_SHORT)
 
         snackbar.view.setBackgroundColor(ContextCompat.getColor(
                 this, R.color.bittersweet))
