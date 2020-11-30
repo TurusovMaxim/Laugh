@@ -11,16 +11,17 @@ object SharedPrefStart {
     private inline fun SharedPreferences.myEditor(operation: (SharedPreferences.Editor) -> Unit) {
         val editor = this.edit()
         operation(editor)
-        editor.apply()
     }
 
     operator fun SharedPreferences.set(key: String, value: Any?) {
         when (value) {
-            is String? -> myEditor { it.putString(key, value) }
-            is Int -> myEditor { it.putInt(key, value) }
+            is String? -> myEditor { it.putString(key, value).apply() }
+            is Int -> myEditor { it.putInt(key, value).apply() }
             else -> throw UnsupportedOperationException("Not yet implemented")
         }
     }
+
+    //inline fun <reified T> membersOf() = T::class.members
 
     inline operator fun <reified T : Any> SharedPreferences.get(key: String, defaultValue: T? = null): T? {
         return when (T::class) {
