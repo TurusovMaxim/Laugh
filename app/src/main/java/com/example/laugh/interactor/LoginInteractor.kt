@@ -28,6 +28,8 @@ class LoginInteractor (
 
     private var isPasswordShow: Boolean = false
 
+
+
     private fun areFieldsEmptyOnEdit(text: CharSequence?): Boolean {
         return text.toString().isEmpty()
     }
