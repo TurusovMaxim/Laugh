@@ -1,8 +1,13 @@
 package com.example.laugh.util
 
-const val PREF_NAME_TOKEN = "Token"
-const val PREF_NAME_ID = "id"
-const val PREF_NAME_USERNAME = "username"
-const val PREF_NAME_FIRST_NAME = "firstName"
-const val PREF_NAME_LAST_NAME = "lastName"
-const val PREF_NAME_USER_DESCRIPTION = "userDescription"
+const val SHARED_PREFS = "sharedPrefsSettings"
+
+const val ACCESS_TOKEN = "accessToken"
+const val USER_ID = "id"
+const val USERNAME = "username"
+const val FIRST_NAME = "firstName"
+const val LAST_NAME = "lastName"
+const val USER_DESCRIPTION = "userDescription"
+
+const val EMPTY_INT = 0
+const val EMPTY_STRING = ""

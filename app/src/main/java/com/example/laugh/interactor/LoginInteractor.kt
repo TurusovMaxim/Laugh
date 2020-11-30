@@ -1,11 +1,11 @@
 package com.example.laugh.interactor
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.text.Editable
 import com.example.laugh.data.network.request.AuthRequest
 import com.example.laugh.data.network.response.UserInfoResponse
 import com.example.laugh.data.retofit.ServiceBuilder
+import com.example.laugh.data.storage.UserStorage
 import com.example.laugh.view.LoginView
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,6 +22,9 @@ class LoginInteractor (
 
     //network
     private val getUserApi = ServiceBuilder.getApi()
+
+    //storage
+    private val userStorage = UserStorage(context)
 
     private var isPasswordShow: Boolean = false
 
@@ -133,24 +136,11 @@ class LoginInteractor (
                         call: Call<UserInfoResponse>,
                         response: Response<UserInfoResponse>
                 ) {
-                    val sharedPreferences:SharedPreferences
-                            = context.getSharedPreferences("LAUGH_SETTING", Context.MODE_PRIVATE)
-                    val editor:SharedPreferences.Editor = sharedPreferences.edit()
                     val userResponse:UserInfoResponse? = response.body()
-                    if (userResponse != null)
-                    {
-                        editor.putString("accessToken", userResponse.accessToken)
-                        val userInfo = userResponse.userInfo
-                        if (userInfo != null)
-                        {
-                            editor.putString("username", userInfo.username)
-                            editor.putString("firstName", userInfo.firstName)
-                            editor.putString("lastName", userInfo.lastName)
-                            editor.putString("userDescription", userInfo.userDescription)
-                        }
-                        editor.apply()
-                        view.loginSuccess()
+                    if(userResponse != null) {
+                        userStorage.setUserData(userResponse)
                     }
+                    view.loginSuccess()
                 }
 
                 override fun onFailure(
