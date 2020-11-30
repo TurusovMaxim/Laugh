@@ -106,18 +106,25 @@ class LoginInteractor (
 
 
 
-    private fun isStaticEmpty(
-            view: LoginView
-    ): Boolean {
-        return if (userLoginEdit.text.toString().isEmpty()
-                && userPasswordEdit.text.toString().isEmpty()) {
+    private fun staticEmptyLogin(view: LoginView): Boolean {
+        return if (userLoginEdit.text.toString().isEmpty()) {
             view.setLgnErrorMessage()
-            view.setPwdErrorMessage()
-            true
-        } else {
             false
+        } else {
+            true
         }
     }
+
+    private fun staticEmptyPdw(view: LoginView): Boolean {
+        return if (userPasswordEdit.text.toString().isEmpty()) {
+            view.setPwdErrorMessage()
+            false
+        } else {
+            true
+        }
+    }
+
+
 
 
     private fun isItInRightRange(): Boolean {
@@ -127,7 +134,7 @@ class LoginInteractor (
 
 
     fun login(view: LoginView) {
-        if (!isStaticEmpty(view) && isItInRightRange()
+        if (staticEmptyLogin(view) && staticEmptyPdw(view) && isItInRightRange()
         ) {
             getUserApi?.logIn(AuthRequest(
                     userLoginEdit.text.toString(),
