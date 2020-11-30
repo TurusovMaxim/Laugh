@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://demo2407529.mockable.io/"
+private const val BASE_URL = "https://r2.mocker.surfstudio.ru/android_vsu/"
 
 object ServiceBuilder {
     private var gson: Gson = GsonBuilder().create()
