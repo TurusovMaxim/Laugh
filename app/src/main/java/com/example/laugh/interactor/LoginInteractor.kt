@@ -1,9 +1,11 @@
 package com.example.laugh.interactor
 
+import android.content.Context
 import android.text.Editable
 import com.example.laugh.data.network.request.AuthRequest
 import com.example.laugh.data.network.response.UserInfoResponse
 import com.example.laugh.data.retofit.ServiceBuilder
+import com.example.laugh.data.storage.UserStorage
 import com.example.laugh.view.LoginView
 import retrofit2.Call
 import retrofit2.Callback
@@ -13,19 +15,23 @@ import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 private const val LOWER_LIMIT_PWD = 6
 private const val UPPER_LIMIT_PWD = 16
 
-class LoginInteractor(private val userLoginEdit: ExtendedEditText,
-                      private var userPasswordEdit: ExtendedEditText) {
-
-
-    private var isPasswordShow: Boolean = false
+class LoginInteractor (
+        private val context: Context,
+        private val userLoginEdit: ExtendedEditText,
+        private var userPasswordEdit: ExtendedEditText) {
 
     //network
     private val getUserApi = ServiceBuilder.getApi()
 
+    //storage
+    private val userStorage = UserStorage(context)
+
+    private var isPasswordShow: Boolean = false
+
     private fun areFieldsEmptyOnEdit(text: CharSequence?): Boolean {
         return text.toString().isEmpty()
-
     }
+
 
     private fun passwordIconEnable(
         text: CharSequence?,
@@ -39,11 +45,13 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
         setCursorAtRightPlace(text)
     }
 
+
     private fun setCursorAtRightPlace(
             text: CharSequence?
     ) {
         userPasswordEdit.setSelection(text.toString().length)
     }
+
 
     fun pwdIconEnableDisable(
         text: CharSequence?,
@@ -57,6 +65,7 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
     }
 
 
+
     fun iconShowHidePwd(
         text: CharSequence?,
         view: LoginView
@@ -66,6 +75,7 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
             passwordIconEnable(text, view)
         }
     }
+
 
 
     fun isPwdValid(
@@ -87,9 +97,11 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
     }
 
 
+
     fun areFieldsEmptyAfterEdit(editable: Editable?): Boolean {
         return editable.toString().isEmpty()
     }
+
 
 
     private fun isStaticEmpty(
@@ -105,29 +117,39 @@ class LoginInteractor(private val userLoginEdit: ExtendedEditText,
         }
     }
 
+
     private fun isItInRightRange(): Boolean {
         return userPasswordEdit.text.toString().length in LOWER_LIMIT_PWD until UPPER_LIMIT_PWD + 1
     }
 
-    fun login(
-            view: LoginView
-    ) {
-        if (!isStaticEmpty(view) && isItInRightRange()) {
+
+
+    fun login(view: LoginView) {
+        if (!isStaticEmpty(view) && isItInRightRange()
+        ) {
             getUserApi?.logIn(AuthRequest(
                     userLoginEdit.text.toString(),
                     userPasswordEdit.text.toString()
-            ))
-                    ?.enqueue(object : Callback<UserInfoResponse> {
-                        override fun onResponse(
-                                call: Call<UserInfoResponse>,
-                                response: Response<UserInfoResponse>) {
-                            view.loginSuccess()
-                        }
+            ))?.enqueue(object : Callback<UserInfoResponse> {
 
-                        override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
-                            view.loginFailure()
-                        }
-                    })
+                override fun onResponse(
+                        call: Call<UserInfoResponse>,
+                        response: Response<UserInfoResponse>
+                ) {
+                    val userResponse:UserInfoResponse? = response.body()
+                    if(userResponse != null) {
+                        userStorage.setUserData(userResponse)
+                    }
+                    view.loginSuccess()
+                }
+
+                override fun onFailure(
+                        call: Call<UserInfoResponse>,
+                        t: Throwable
+                ) {
+                    view.loginFailure()
+                }
+            })
         }
     }
 }
