@@ -7,4 +7,5 @@
     <string name="upper_limit_password">Пароль не должен содержать более %1$d символов</string>
     <string name="lower_limit_password">Пароль должен содержать %1$d символов</string>
     <string name="snackbar_error">Во время запроса произошла ошибка, возможно вы неверно ввели логин/пароль</string>
+    <string name="search_text">Популярные мемы</string>
 </resources>

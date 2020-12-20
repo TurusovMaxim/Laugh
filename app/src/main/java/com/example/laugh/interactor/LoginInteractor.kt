@@ -26,9 +26,8 @@ class LoginInteractor (
     //storage
     private val userStorage = UserStorage(context)
 
+
     private var isPasswordShow: Boolean = false
-
-
 
     private fun areFieldsEmptyOnEdit(text: CharSequence?): Boolean {
         return text.toString().isEmpty()
@@ -65,8 +64,6 @@ class LoginInteractor (
             passwordIconEnable(text, view)
         }
     }
-
-
 
     fun iconShowHidePwd(
         text: CharSequence?,
@@ -123,7 +120,6 @@ class LoginInteractor (
             true
         }
     }
-
 
 
 

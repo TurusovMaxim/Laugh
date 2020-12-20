@@ -42,15 +42,6 @@ class UserStorage(context: Context) {
     fun getUserDescription(): String {
         return sharedPref[USER_DESCRIPTION] ?: EMPTY_STRING
     }
-
-    fun delUserData(user: UserInfoResponse) {
-        sharedPref[ACCESS_TOKEN] = null
-        sharedPref[USER_ID] = null
-        sharedPref[USERNAME] = null
-        sharedPref[FIRST_NAME] = null
-        sharedPref[LAST_NAME] = null
-        sharedPref[USER_DESCRIPTION] = null
-    }
 }
 
 
