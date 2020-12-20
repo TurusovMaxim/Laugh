@@ -10,8 +10,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val sharedPref = UserStorage(this )
-        val textView = findViewById<TextView>(R.id.text3)
-        textView.text = sharedPref.getUserDescription()
+
+
     }
 }
