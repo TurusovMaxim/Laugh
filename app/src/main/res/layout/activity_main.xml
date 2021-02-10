@@ -51,7 +51,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_title"
 
-        android:src="@drawable/ic_search"/>
+        android:src="@drawable/ic_search"
+        android:contentDescription="@string/main_image_view_descr"/>
 
     <FrameLayout
         android:id="@+id/frame_layout_feed"

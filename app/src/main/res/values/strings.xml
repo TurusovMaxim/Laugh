@@ -12,4 +12,5 @@
     <string name="create_meme">Создать</string>
     <string name="user_icon">Пользователь</string>
     <string name="popular_memes">Популярные мемы</string>
+    <string name="main_image_view_descr">Поиск</string>
 </resources>

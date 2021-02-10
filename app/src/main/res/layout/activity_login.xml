@@ -64,9 +64,6 @@
         </LinearLayout>
     </ScrollView>
 
-
-
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/container_btn"
         android:layout_width="match_parent"
