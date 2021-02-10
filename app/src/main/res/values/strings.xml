@@ -8,4 +8,8 @@
     <string name="lower_limit_password">Пароль должен содержать %1$d символов</string>
     <string name="snackbar_error">Во время запроса произошла ошибка, возможно вы неверно ввели логин/пароль</string>
     <string name="search_text">Популярные мемы</string>
+    <string name="meme_feed">Лента</string>
+    <string name="create_meme">Создать</string>
+    <string name="user_icon">Пользователь</string>
+    <string name="popular_memes">Популярные мемы</string>
 </resources>
