@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/meme_feed"
+        android:id="@+id/action_feed"
         android:enabled="true"
         android:icon="@drawable/ic_nav_icon_left_feed"
         android:title="@string/meme_feed" />
 
     <item
-        android:id="@+id/create_meme"
+        android:id="@+id/action_create"
         android:enabled="true"
         android:icon="@drawable/ic_nav_icon_left_add"
         android:title="@string/create_meme" />
 
     <item
-        android:id="@+id/user_icon"
+        android:id="@+id/action_profile"
         android:enabled="true"
         android:icon="@drawable/ic_nav_icon_left_user"
         android:title="@string/user_icon" />
